@@ -84,22 +84,21 @@ return [
             ]) : [],
         ],
 
-        // Koneksi ke database Khanza/RME-Nirwana yang sama (tabel sumber lab/radiologi/apotek + alarm_log).
-        // Kredensial diisi manual di .env oleh Rafli: KHANZA_DB_HOST, KHANZA_DB_PORT, KHANZA_DB_DATABASE,
-        // KHANZA_DB_USERNAME, KHANZA_DB_PASSWORD.
+        // Koneksi ke database Khanza/RME-Nirwana (tabel sumber + alarm_log).
+        // Mendukung KHANZA_DB_* atau fallback ke DB_* standar dari .env.
         'khanza' => [
             'driver' => 'mysql',
-            'host' => env('KHANZA_DB_HOST', '127.0.0.1'),
-            'port' => env('KHANZA_DB_PORT', '3306'),
-            'database' => env('KHANZA_DB_DATABASE'),
-            'username' => env('KHANZA_DB_USERNAME'),
-            'password' => env('KHANZA_DB_PASSWORD', ''),
+            'host' => env('KHANZA_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('KHANZA_DB_PORT', env('DB_PORT', '3306')),
+            'database' => env('KHANZA_DB_DATABASE', env('DB_DATABASE')),
+            'username' => env('KHANZA_DB_USERNAME', env('DB_USERNAME')),
+            'password' => env('KHANZA_DB_PASSWORD', env('DB_PASSWORD', '')),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),
             'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict' => true,
+            'strict' => false,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
